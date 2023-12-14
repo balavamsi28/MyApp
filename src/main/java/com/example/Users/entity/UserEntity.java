@@ -1,9 +1,6 @@
 package com.example.Users.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -12,8 +9,14 @@ import lombok.Data;
 public class UserEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="USER_ID")
+    private long userid;
+
     @Column(name = "USER_NAME")
     private String username;
     @Column(name = "PASSWORD")
     private String password;
+
+
 }
