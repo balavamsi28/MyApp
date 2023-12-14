@@ -3,6 +3,7 @@ package com.example.Users.Services;
 import com.example.Users.dto.UserModel;
 import com.example.Users.entity.UserEntity;
 import com.example.Users.Repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +18,8 @@ public class UserService extends UserEntity {
     }
 
     public String checkUser(UserModel userModel){
-        Optional<UserEntity> userEntity= userRepository.findById(userModel.getUsername());
-        if(userEntity.isPresent() && userEntity.get().getPassword().equals(userModel.getPassword())){
+        UserEntity userEntity= userRepository.findByUsername(userModel.getUsername());
+        if(userEntity!=null && userEntity.getPassword().equals(userModel.getPassword())){
             return "yes";
         }
         else {
@@ -28,19 +29,8 @@ public class UserService extends UserEntity {
 
 public UserEntity addUser(UserModel userModel){
         UserEntity userEntity=new UserEntity();
-        userEntity.setUsername(userModel.getUsername());
-        userEntity.setPassword(userModel.getUsername());
-
+        BeanUtils.copyProperties(userModel,userEntity);
         return userRepository.save(userEntity);
+    }
 
-}
-//    public static UserData addUser(String username, String password){
-//
-//        UserData user=new UserData();
-//        user.setUsername(username);
-//        user.setPassword(password);
-//
-//        return userRepository.save(user);
-//
-//    }
 }
